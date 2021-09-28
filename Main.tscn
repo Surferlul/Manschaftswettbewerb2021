@@ -272,7 +272,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="OptionButton" type="OptionButton" parent="."]
+[node name="dropdown" type="OptionButton" parent="."]
 margin_left = 403.0
 margin_top = 494.0
 margin_right = 591.0
