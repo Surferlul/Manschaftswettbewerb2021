@@ -4,7 +4,7 @@ extends Node2D
 # var a = 2
 # var b = "text"
 
-var db = {"Schueler": [], "Faecher": {}, "Klassen": {}}
+var db = {"Schueler": {}, "Faecher": {}, "Klassen": {}}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -23,29 +23,33 @@ class Schueler:
 		self.id = id
 
 class Fach:
-	func _init(name, schueler = [], staten = [], zeiten = []):
+	func _init(name, schueler = [], staten = []):
 		self.name = name
 		self.db = []
 		for i in schueler:
 			self.db.append([i])
 		for i in range(len(staten)):
 			self.db[i].append(staten[i])
-		for i in range(len(zeiten)):
-			self.db[i].append(zeiten[i])
 	
-	func add_schueler(schueler, status = null, zeit = null):
-		self.db.append([schueler, status, zeit])
+	func add_schueler(schueler, status = null):
+		self.db.append([schueler, status])
+		schueler.faecher.append(self)
 	
 	func del_schueler(schueler):
 		for i in self.db:
 			if i[0] == schueler:
 				self.db.erase(i)
 	
-	func set_status(schueler, status, zeit):
+	func set_status(schueler, status):
 		for i in range(len(self.db)):
 			if self.db[i][0] == schueler:
 				self.db[i][1] = status
-				self.db[i][2] = zeit
+	
+	func hat_schueler(schueler):
+		for i in self.db:
+			if i[0] == schueler:
+				return true
+		return false
 
 class Klasse:
 	func _init(name, schueler = []):
@@ -55,18 +59,32 @@ class Klasse:
 	func add_schueler(schueler):
 		self.schueler.append(schueler)
 
-func read_new_csv(overwrite = false):
-	db = {"Schueler": [], "Faecher": {}, "Klassen": {}}
+func read_new_csv(datei_name):
+	# struktur:
+	# id;vorname;nachname;klasse;geburtsdatum
 	var file = File.new()
-	file.open("~/test.csv", file.READ)
+	file.open(datei_name, file.READ)
 	while !file.eof_reached():
 		var csv = file.get_csv_line()
 		if !(csv[2] in db["Klassen"]):
 			db["Klassen"][csv[2]] = Klasse.new(csv[2])
-		db["Schueler"].append(Schueler.new(csv[1], csv[2], db["Klassen"][csv[3]], [], csv[4], csv[5]))
+		db["Schueler"][csv[0]] = Schueler.new(csv[1], csv[2], db["Klassen"][csv[3]], [], csv[4], csv[0])
 
-func read_res_csv():
-	
+func read_res_csv(datei_name):
+	# struktur:
+	# id;fach;status
+	var file = File.new()
+	file.open(datei_name, file.READ)
+	while !file.eof_reached():
+		var csv = file.get_csv_line()
+		if !(csv[1] in db["Faecher"]):
+			db["Faecher"][csv[1]] = Fach.new(csv[1])
+		if !db["Faecher"][csv[1]].has_schueler(db["Schueler"][csv[0]]):
+			db["Faecher"][csv[1]].add_schueler(db["Schueler"][csv[0]], csv[2])
+		else:
+			db["Faecher"][csv[1]].set_status(db["Schueler"][csv[0]], csv[2])
+
+
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -74,3 +92,32 @@ func read_res_csv():
 #	pass
 
 
+func _on_Suche_pressed():
+	var ergebnisse = []
+	for i in db["Schueler"]:
+		ergebnisse.append(db["Schueler"][i])
+	if $NameE.text != "":
+		for i in ergebnisse:
+			if i.nachname != $NameE.text:
+				ergebnisse.erase(i)
+	if $VornameE.text != "":
+		for i in ergebnisse:
+			if i.vorname != $VornameE.text:
+				ergebnisse.erase(i)
+	if $KlasseE.text != "":
+		for i in ergebnisse:
+			if i.klasse.name != $KlasseE.text:
+				ergebnisse.erase(i)
+	if $KursE.text != "":
+		for i in ergebnisse:
+			var kursnamen = []
+			for j in i.faecher:
+				kursnamen.append(j.name)
+			if !$KursE.text in kursnamen:
+				ergebnisse.erase(i)
+	if len(ergebnisse) == 1:
+		var s = ergebnisse[0]
+		$NameE.text = s.nachname
+		$VornameE.text = s.vorname
+		$KlasseE.text = s.klasse.name
+		
