@@ -8,7 +8,8 @@ var db = {"Schueler": {}, "Faecher": {}, "Klassen": {}}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	dropdown.add_item("Schüler")
+	dropdown.add_item("3G")
 
 class Schueler:
 	func _init(vorname, nachname, klasse, faecher, geburtsdatum, id):
