@@ -68,7 +68,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextEdit2" type="TextEdit" parent="."]
+[node name="VornameE" type="TextEdit" parent="."]
 margin_left = 267.0
 margin_top = 77.0
 margin_right = 463.0
@@ -261,7 +261,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="pressed" from="Suche" to="." method="_on_Suche_pressed"]
 [node name="CSV" type="Button" parent="."]
 margin_left = 288.0
 margin_top = 494.0
@@ -283,7 +282,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CSV-name" type="TextEdit" parent="."]
+[node name="CSV_name" type="TextEdit" parent="."]
 margin_left = 46.8409
 margin_top = 493.523
 margin_right = 276.841
@@ -292,3 +291,6 @@ custom_fonts/font = SubResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[connection signal="pressed" from="Suche" to="." method="_on_Suche_pressed"]
+[connection signal="pressed" from="CSV" to="." method="_on_CSV_pressed"]

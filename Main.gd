@@ -8,10 +8,16 @@ var db = {"Schueler": {}, "Faecher": {}, "Klassen": {}}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	dropdown.add_item("Schüler")
-	dropdown.add_item("3G")
+	$dropdown.add_item("Schüler")
+	$dropdown.add_item("3G")
 
 class Schueler:
+	var vorname
+	var nachname
+	var klasse
+	var faecher
+	var geburtsdatum
+	var id
 	func _init(vorname, nachname, klasse, faecher, geburtsdatum, id):
 		self.vorname = vorname
 		self.nachname = nachname
@@ -24,6 +30,8 @@ class Schueler:
 		self.id = id
 
 class Fach:
+	var name
+	var db
 	func _init(name, schueler = [], staten = []):
 		self.name = name
 		self.db = []
@@ -53,6 +61,8 @@ class Fach:
 		return false
 
 class Klasse:
+	var name
+	var schueler
 	func _init(name, schueler = []):
 		self.name = name
 		self.schueler = schueler
@@ -66,9 +76,9 @@ func read_new_csv(datei_name):
 	var file = File.new()
 	file.open(datei_name, file.READ)
 	while !file.eof_reached():
-		var csv = file.get_csv_line()
-		if !(csv[2] in db["Klassen"]):
-			db["Klassen"][csv[2]] = Klasse.new(csv[2])
+		var csv = file.get_csv_line(";")
+		if !(csv[3] in db["Klassen"]):
+			db["Klassen"][csv[3]] = Klasse.new(csv[3])
 		db["Schueler"][csv[0]] = Schueler.new(csv[1], csv[2], db["Klassen"][csv[3]], [], csv[4], csv[0])
 
 func read_res_csv(datei_name):
@@ -121,4 +131,12 @@ func _on_Suche_pressed():
 		$NameE.text = s.nachname
 		$VornameE.text = s.vorname
 		$KlasseE.text = s.klasse.name
-		
+		$Id.text = s.id
+
+
+func _on_CSV_pressed():
+	print($CSV_name.text)
+	if $dropdown.selected == 0:
+		read_new_csv($CSV_name.text)
+	else:
+		read_res_csv($CSV_name.text)
