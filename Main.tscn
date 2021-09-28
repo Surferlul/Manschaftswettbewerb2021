@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://data/fonts/adobe-source-code-pro/SourceCodePro-Regular.otf" type="DynamicFontData" id=2]
@@ -27,6 +27,10 @@ font_data = ExtResource( 2 )
 [sub_resource type="DynamicFont" id=6]
 size = 36
 font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 36
+font_data = ExtResource( 2 )
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 1 )
@@ -214,10 +218,10 @@ __meta__ = {
 }
 
 [node name="Suche" type="Button" parent="."]
-margin_left = 43.0
-margin_top = 321.0
-margin_right = 301.0
-margin_bottom = 434.0
+margin_left = 42.0
+margin_top = 308.0
+margin_right = 308.0
+margin_bottom = 385.0
 custom_fonts/font = SubResource( 5 )
 text = "Suche"
 __meta__ = {
@@ -225,10 +229,10 @@ __meta__ = {
 }
 
 [node name="Speichern" type="Button" parent="."]
-margin_left = 332.0
-margin_top = 323.0
-margin_right = 592.0
-margin_bottom = 432.0
+margin_left = 328.0
+margin_top = 309.0
+margin_right = 591.0
+margin_bottom = 386.0
 custom_fonts/font = SubResource( 5 )
 text = "Speichern"
 __meta__ = {
@@ -236,23 +240,44 @@ __meta__ = {
 }
 
 [node name="Klasse ausgeben" type="Button" parent="."]
-margin_left = 45.0
-margin_top = 463.0
-margin_right = 588.0
-margin_bottom = 577.0
+margin_left = 43.0
+margin_top = 399.0
+margin_right = 590.0
+margin_bottom = 481.0
 custom_fonts/font = SubResource( 5 )
 text = "Klasse ausgeben"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="."]
+[node name="Id" type="Label" parent="."]
 margin_left = 410.327
 margin_top = 184.109
 margin_right = 589.327
 margin_bottom = 238.109
 custom_fonts/font = SubResource( 6 )
 text = "Id"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CSV" type="Button" parent="."]
+margin_left = 43.0
+margin_top = 494.0
+margin_right = 385.0
+margin_bottom = 574.0
+custom_fonts/font = SubResource( 5 )
+text = "CSV Auswählen"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OptionButton" type="OptionButton" parent="."]
+margin_left = 403.0
+margin_top = 494.0
+margin_right = 591.0
+margin_bottom = 574.0
+custom_fonts/font = SubResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
