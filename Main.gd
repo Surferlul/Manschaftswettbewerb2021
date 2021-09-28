@@ -79,6 +79,7 @@ func read_new_csv(datei_name):
 		var csv = file.get_csv_line(";")
 		if !(csv[3] in db["Klassen"]):
 			db["Klassen"][csv[3]] = Klasse.new(csv[3])
+			print(csv)
 		db["Schueler"][csv[0]] = Schueler.new(csv[1], csv[2], db["Klassen"][csv[3]], [], csv[4], csv[0])
 
 func read_res_csv(datei_name):
@@ -87,10 +88,10 @@ func read_res_csv(datei_name):
 	var file = File.new()
 	file.open(datei_name, file.READ)
 	while !file.eof_reached():
-		var csv = file.get_csv_line()
+		var csv = file.get_csv_line(";")
 		if !(csv[1] in db["Faecher"]):
 			db["Faecher"][csv[1]] = Fach.new(csv[1])
-		if !db["Faecher"][csv[1]].has_schueler(db["Schueler"][csv[0]]):
+		if !db["Faecher"][csv[1]].hat_schueler(db["Schueler"][csv[0]]):
 			db["Faecher"][csv[1]].add_schueler(db["Schueler"][csv[0]], csv[2])
 		else:
 			db["Faecher"][csv[1]].set_status(db["Schueler"][csv[0]], csv[2])
